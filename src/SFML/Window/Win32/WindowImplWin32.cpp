@@ -471,8 +471,8 @@ void WindowImplWin32::processEvent(UINT message, WPARAM wParam, LPARAM lParam)
             if (m_isCursorClipped)
             {
                 RECT rect;
-                GetWindowRect(m_handle, &rect);
-
+                GetClientRect(m_handle, &rect);
+                MapWindowPoints(m_handle, 0, (LPPOINT)&rect, (sizeof(RECT)/sizeof(POINT)));
                 ClipCursor(&rect);
             }
             break;
@@ -492,6 +492,14 @@ void WindowImplWin32::processEvent(UINT message, WPARAM wParam, LPARAM lParam)
         // Gain focus event
         case WM_SETFOCUS :
         {
+            if (m_isCursorClipped)
+            {
+                RECT rect;
+                GetClientRect(m_handle, &rect);
+                MapWindowPoints(m_handle, 0, (LPPOINT)&rect, (sizeof(RECT)/sizeof(POINT)));
+                ClipCursor(&rect);
+            }
+
             Event event;
             event.type = Event::GainedFocus;
             pushEvent(event);
@@ -501,6 +509,8 @@ void WindowImplWin32::processEvent(UINT message, WPARAM wParam, LPARAM lParam)
         // Lost focus event
         case WM_KILLFOCUS :
         {
+            ClipCursor(NULL);
+
             Event event;
             event.type = Event::LostFocus;
             pushEvent(event);
@@ -771,19 +781,6 @@ void WindowImplWin32::processEvent(UINT message, WPARAM wParam, LPARAM lParam)
             pushEvent(event);
             break;
         }
-
-        // Regain focus event
-        case WM_ACTIVATEAPP:
-        {
-            if (m_isCursorClipped)
-            {
-                RECT rect;
-                GetWindowRect(m_handle, &rect);
-
-                ClipCursor(&rect);
-            }
-            break;
-        }
     }
 }
 
@@ -949,8 +946,8 @@ LRESULT CALLBACK WindowImplWin32::globalOnEvent(HWND handle, UINT message, WPARA
 void WindowImplWin32::trapMouseCursor()
 {
     RECT rect;
-    GetWindowRect(m_handle, &rect);
-
+    GetClientRect(m_handle, &rect);
+    MapWindowPoints(m_handle, 0, (LPPOINT)&rect, (sizeof(RECT)/sizeof(POINT)));
     ClipCursor(&rect);
 
     m_isCursorClipped = true;
