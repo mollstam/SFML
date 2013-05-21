@@ -412,4 +412,18 @@ void Window::initialize()
     onCreate();
 }
 
+////////////////////////////////////////////////////////////
+void Window::trapMouseCursor()
+{
+    if (m_impl)
+        m_impl->trapMouseCursor();
+}
+
+////////////////////////////////////////////////////////////
+void Window::freeMouseCursor()
+{
+    if (m_impl)
+        m_impl->freeMouseCursor();
+}
+
 } // namespace sf

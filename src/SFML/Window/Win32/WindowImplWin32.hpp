@@ -153,6 +153,18 @@ public :
     ////////////////////////////////////////////////////////////
     virtual void setKeyRepeatEnabled(bool enabled);
 
+    ////////////////////////////////////////////////////////////
+    /// \brief Traps the mouse cursor and keeps it from leaving
+    ///
+    ////////////////////////////////////////////////////////////
+    virtual void trapMouseCursor();
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Frees the mouse cursor
+    ///
+    ////////////////////////////////////////////////////////////
+    virtual void freeMouseCursor();
+
 protected:
 
     ////////////////////////////////////////////////////////////
@@ -237,6 +249,7 @@ private :
     bool     m_resizing;         ///< Is the window being resized?
     Uint16   m_surrogate;        ///< First half of the surrogate pair, in case we're receiving a Unicode character in two events
     bool     m_mouseInside;      ///< Mouse is inside the window?
+    bool     m_isCursorClipped;  ///< Is the mouse cursor trapped?
 };
 
 } // namespace priv

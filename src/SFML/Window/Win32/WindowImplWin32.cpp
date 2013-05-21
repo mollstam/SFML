@@ -74,6 +74,7 @@ m_lastSize        (0, 0),
 m_resizing        (false),
 m_surrogate       (0),
 m_mouseInside     (false)
+m_isCursorClipped (0)
 {
     if (m_handle)
     {
@@ -466,6 +467,14 @@ void WindowImplWin32::processEvent(UINT message, WPARAM wParam, LPARAM lParam)
                 event.size.height = m_lastSize.y;
                 pushEvent(event);
             }
+            // Restore cursor clipping
+            if (m_isCursorClipped)
+            {
+                RECT rect;
+                GetWindowRect(m_handle, &rect);
+
+                ClipCursor(&rect);
+            }
             break;
         }
 
@@ -762,6 +771,19 @@ void WindowImplWin32::processEvent(UINT message, WPARAM wParam, LPARAM lParam)
             pushEvent(event);
             break;
         }
+
+        // Regain focus event
+        case WM_ACTIVATEAPP:
+        {
+            if (m_isCursorClipped)
+            {
+                RECT rect;
+                GetWindowRect(m_handle, &rect);
+
+                ClipCursor(&rect);
+            }
+            break;
+        }
     }
 }
 
@@ -921,6 +943,24 @@ LRESULT CALLBACK WindowImplWin32::globalOnEvent(HWND handle, UINT message, WPARA
         return 0;
 
     return DefWindowProc(handle, message, wParam, lParam);
+}
+
+////////////////////////////////////////////////////////////
+void WindowImplWin32::trapMouseCursor()
+{
+    RECT rect;
+    GetWindowRect(m_handle, &rect);
+
+    ClipCursor(&rect);
+
+    m_isCursorClipped = true;
+}
+
+////////////////////////////////////////////////////////////
+void WindowImplWin32::freeMouseCursor()
+{
+    ClipCursor(NULL);
+    m_isCursorClipped = false;
 }
 
 } // namespace priv

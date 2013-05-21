@@ -434,7 +434,18 @@ void WindowImplCocoa::setKeyRepeatEnabled(bool enabled)
     }
 }
 
+////////////////////////////////////////////////////////////
+void WindowImplCocoa::trapMouseCursor()
+{
 
+}
+    
+////////////////////////////////////////////////////////////
+void WindowImplCocoa::freeMouseCursor()
+{
+
+}
+    
 } // namespace priv
 
 } // namespace sf

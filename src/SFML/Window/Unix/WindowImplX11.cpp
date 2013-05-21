@@ -1012,6 +1012,18 @@ Keyboard::Key WindowImplX11::keysymToSF(KeySym symbol)
     return Keyboard::Unknown;
 }
 
+////////////////////////////////////////////////////////////
+void WindowImplX11::trapMouseCursor()
+{
+
+}
+
+////////////////////////////////////////////////////////////
+void WindowImplX11::freeMouseCursor()
+{
+
+}
+
 } // namespace priv
 
 } // namespace sf
