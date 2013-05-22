@@ -74,7 +74,7 @@ m_lastSize        (0, 0),
 m_resizing        (false),
 m_surrogate       (0),
 m_mouseInside     (false)
-m_isCursorClipped (0)
+m_isCursorClipped (false)
 {
     if (m_handle)
     {
@@ -438,6 +438,9 @@ void WindowImplWin32::processEvent(UINT message, WPARAM wParam, LPARAM lParam)
                 event.size.width  = m_lastSize.x;
                 event.size.height = m_lastSize.y;
                 pushEvent(event);
+
+                // Restore/update cursor clipping
+                clipCursor(m_isCursorClipped);
             }
             break;
         }
@@ -446,6 +449,7 @@ void WindowImplWin32::processEvent(UINT message, WPARAM wParam, LPARAM lParam)
         case WM_ENTERSIZEMOVE :
         {
             m_resizing = true;
+            clipCursor(false);
             break;
         }
 
@@ -467,14 +471,8 @@ void WindowImplWin32::processEvent(UINT message, WPARAM wParam, LPARAM lParam)
                 event.size.height = m_lastSize.y;
                 pushEvent(event);
             }
-            // Restore cursor clipping
-            if (m_isCursorClipped)
-            {
-                RECT rect;
-                GetClientRect(m_handle, &rect);
-                MapWindowPoints(m_handle, 0, (LPPOINT)&rect, (sizeof(RECT)/sizeof(POINT)));
-                ClipCursor(&rect);
-            }
+            // Restore/update cursor clipping
+            clipCursor(m_isCursorClipped);
             break;
         }
 
@@ -492,13 +490,8 @@ void WindowImplWin32::processEvent(UINT message, WPARAM wParam, LPARAM lParam)
         // Gain focus event
         case WM_SETFOCUS :
         {
-            if (m_isCursorClipped)
-            {
-                RECT rect;
-                GetClientRect(m_handle, &rect);
-                MapWindowPoints(m_handle, 0, (LPPOINT)&rect, (sizeof(RECT)/sizeof(POINT)));
-                ClipCursor(&rect);
-            }
+            // Restore cursor clipping
+            clipCursor(m_isCursorClipped);
 
             Event event;
             event.type = Event::GainedFocus;
@@ -509,7 +502,8 @@ void WindowImplWin32::processEvent(UINT message, WPARAM wParam, LPARAM lParam)
         // Lost focus event
         case WM_KILLFOCUS :
         {
-            ClipCursor(NULL);
+            // Unclip the cursor
+            clipCursor(false);
 
             Event event;
             event.type = Event::LostFocus;
@@ -943,21 +937,24 @@ LRESULT CALLBACK WindowImplWin32::globalOnEvent(HWND handle, UINT message, WPARA
 }
 
 ////////////////////////////////////////////////////////////
-void WindowImplWin32::trapMouseCursor()
+void WindowImplWin32::setCursorClipped(bool clipped)
 {
-    RECT rect;
-    GetClientRect(m_handle, &rect);
-    MapWindowPoints(m_handle, 0, (LPPOINT)&rect, (sizeof(RECT)/sizeof(POINT)));
-    ClipCursor(&rect);
-
-    m_isCursorClipped = true;
+    m_isCursorClipped = clipped;
+    clipCursor(m_isCursorClipped);
 }
 
 ////////////////////////////////////////////////////////////
-void WindowImplWin32::freeMouseCursor()
+void WindowImplWin32::clipCursor(bool clipped)
 {
-    ClipCursor(NULL);
-    m_isCursorClipped = false;
+    if (clipped) {
+        RECT rect;
+        GetClientRect(m_handle, &rect);
+        MapWindowPoints(m_handle, 0, (LPPOINT)&rect, (sizeof(RECT) / sizeof(POINT)));
+        ClipCursor(&rect);
+    }
+    else {
+        ClipCursor(NULL);
+    }
 }
 
 } // namespace priv

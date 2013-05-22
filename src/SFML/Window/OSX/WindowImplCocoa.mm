@@ -435,17 +435,11 @@ void WindowImplCocoa::setKeyRepeatEnabled(bool enabled)
 }
 
 ////////////////////////////////////////////////////////////
-void WindowImplCocoa::trapMouseCursor()
+void WindowImplCocoa::setCursorClipped(bool clipped)
 {
 
 }
-    
-////////////////////////////////////////////////////////////
-void WindowImplCocoa::freeMouseCursor()
-{
 
-}
-    
 } // namespace priv
 
 } // namespace sf

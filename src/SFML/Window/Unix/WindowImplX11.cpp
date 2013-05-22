@@ -1013,13 +1013,7 @@ Keyboard::Key WindowImplX11::keysymToSF(KeySym symbol)
 }
 
 ////////////////////////////////////////////////////////////
-void WindowImplX11::trapMouseCursor()
-{
-
-}
-
-////////////////////////////////////////////////////////////
-void WindowImplX11::freeMouseCursor()
+void WindowImplX11::setCursorClipped(bool clipped)
 {
 
 }

@@ -319,16 +319,12 @@ public :
     virtual void setKeyRepeatEnabled(bool enabled);
 
     ////////////////////////////////////////////////////////////
-    /// \brief Traps the mouse cursor and keeps it from leaving
+    /// \brief Clips or releases the mouse cursor
+    ///
+    /// \param clipped True to enable, false to disable
     ///
     ////////////////////////////////////////////////////////////
-    virtual void trapMouseCursor();
-
-    ////////////////////////////////////////////////////////////
-    /// \brief Frees the mouse cursor
-    ///
-    ////////////////////////////////////////////////////////////
-    virtual void freeMouseCursor();
+    virtual void setCursorClipped(bool clipped);
 
 protected :
 

@@ -424,27 +424,17 @@ public :
     WindowHandle getSystemHandle() const;
 
     ////////////////////////////////////////////////////////////
-    /// \brief Traps the mouse cursor and keeps it from leaving
+    /// \brief Clips or releases the mouse cursor
     ///
-    /// Traps the mouse cursor inside this window's area so it
-    /// may no longer be moved outside its bounds.
+    /// If set, clips the mouse cursor inside this window's client
+    /// area so it may no longer be moved outside its bounds.
+    /// Note that clipping is only active while the window has
+    /// focus.
     ///
-    /// \see freeMouseCursor
-    ///
-    ////////////////////////////////////////////////////////////
-
-    void trapMouseCursor();
-
-    ////////////////////////////////////////////////////////////
-    /// \brief Frees the mouse cursor
-    ///
-    /// Untraps the cursor if it's been trapped before.
-    ///
-    /// \see trapMouseCursor
+    /// \param clipped True to enable, false to disable
     ///
     ////////////////////////////////////////////////////////////
-
-	void freeMouseCursor();
+    void setCursorClipped(bool clipped);
 
 protected :
 

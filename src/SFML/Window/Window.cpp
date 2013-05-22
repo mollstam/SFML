@@ -413,17 +413,10 @@ void Window::initialize()
 }
 
 ////////////////////////////////////////////////////////////
-void Window::trapMouseCursor()
+void Window::setCursorClipped(bool clipped)
 {
     if (m_impl)
-        m_impl->trapMouseCursor();
-}
-
-////////////////////////////////////////////////////////////
-void Window::freeMouseCursor()
-{
-    if (m_impl)
-        m_impl->freeMouseCursor();
+        m_impl->setCursorClipped(clipped);
 }
 
 } // namespace sf
