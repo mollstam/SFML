@@ -674,6 +674,10 @@ bool WindowImplX11::processEvent(XEvent windowEvent)
             if (m_inputContext)
                 XSetICFocus(m_inputContext);
 
+            // Clip cursor
+            if (m_isCursorClipped)
+                XGrabPointer(m_display, m_window, true, 0, GrabModeAsync, GrabModeAsync, m_window, None, CurrentTime);
+
             Event event;
             event.type = Event::GainedFocus;
             pushEvent(event);
@@ -686,6 +690,10 @@ bool WindowImplX11::processEvent(XEvent windowEvent)
             // Update the input context
             if (m_inputContext)
                 XUnsetICFocus(m_inputContext);
+
+            // Release cursor
+            if (m_isCursorClipped)
+                XUngrabPointer(m_display, CurrentTime);
 
             Event event;
             event.type = Event::LostFocus;
