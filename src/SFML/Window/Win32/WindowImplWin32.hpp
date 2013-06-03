@@ -255,6 +255,7 @@ private :
     Uint16   m_surrogate;        ///< First half of the surrogate pair, in case we're receiving a Unicode character in two events
     bool     m_mouseInside;      ///< Mouse is inside the window?
     bool     m_isCursorClipped;  ///< Is the mouse cursor trapped?
+    bool     m_isFullscreen;     ///< Is the window fullscreen?
 };
 
 } // namespace priv

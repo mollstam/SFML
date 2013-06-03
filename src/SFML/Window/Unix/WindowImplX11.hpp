@@ -233,6 +233,8 @@ private :
     bool       m_keyRepeat;    ///< Is the KeyRepeat feature enabled?
     Vector2i   m_previousSize; ///< Previous size of the window, to find if a ConfigureNotify event is a resize event (could be a move event only)
     bool       m_useSizeHints; ///< Is the size of the window fixed with size hints?
+    bool       m_isCursorClipped;     ///< Is the mouse cursor trapped?
+    bool       m_isFullscreen;        ///< Is the window fullscreen?
 };
 
 } // namespace priv
