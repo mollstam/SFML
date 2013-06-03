@@ -1040,6 +1040,7 @@ void WindowImplX11::setCursorClipped(bool clipped)
     else if (m_isCursorClipped)
     {
         XUngrabPointer(m_display, CurrentTime);
+        m_isCursorClipped = false;
     }
 }
 
