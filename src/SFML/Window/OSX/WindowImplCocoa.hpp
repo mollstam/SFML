@@ -303,6 +303,14 @@ public :
     virtual void setVisible(bool visible);
 
     ////////////////////////////////////////////////////////////
+    /// \brief Grab the mouse when window is in foreground
+    ///
+    /// \param grabbed True to grab, false to not grab
+    ///
+    ////////////////////////////////////////////////////////////
+    virtual void setMouseGrabbed(bool grabbed);
+
+    ////////////////////////////////////////////////////////////
     /// \brief Show or hide the mouse cursor
     ///
     /// \param visible True to show, false to hide

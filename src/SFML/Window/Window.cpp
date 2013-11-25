@@ -278,6 +278,12 @@ void Window::setVerticalSyncEnabled(bool enabled)
         m_context->setVerticalSyncEnabled(enabled);
 }
 
+////////////////////////////////////////////////////////////
+void Window::setMouseGrabbed(bool grabbed)
+{
+    if (m_impl)
+        m_impl->setMouseGrabbed(grabbed);
+}
 
 ////////////////////////////////////////////////////////////
 void Window::setMouseCursorVisible(bool visible)

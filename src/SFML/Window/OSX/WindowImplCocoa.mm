@@ -410,6 +410,11 @@ void WindowImplCocoa::setVisible(bool visible)
     }
 }
 
+void WindowImplCocoa::setMouseGrabbed(bool grabbed)
+{
+    
+}
+
 
 ////////////////////////////////////////////////////////////
 void WindowImplCocoa::setMouseCursorVisible(bool visible)

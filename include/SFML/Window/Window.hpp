@@ -329,6 +329,18 @@ public :
     void setVerticalSyncEnabled(bool enabled);
 
     ////////////////////////////////////////////////////////////
+    /// \brief Grab the mouse when window is in foreground
+    ///
+    /// When grabbed the mouse does not move a cursor
+    /// on the screen but sends relative coordinates
+    /// instead, this also hides the cursor.
+    ///
+    /// \param grabbed True to grab, false to not grab
+    ///
+    ////////////////////////////////////////////////////////////
+    void setMouseGrabbed(bool grabbed);
+
+    ////////////////////////////////////////////////////////////
     /// \brief Show or hide the mouse cursor
     ///
     /// The mouse cursor is visible by default.
