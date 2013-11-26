@@ -274,6 +274,20 @@
 
 
 ////////////////////////////////////////////////////////
+-(void)grabMouse
+{
+    CGAssociateMouseAndMouseCursorPosition(false);
+    CGDisplayHideCursor(kCGDirectMainDisplay);
+}
+
+////////////////////////////////////////////////////////
+-(void)ungrabMouse
+{
+    CGAssociateMouseAndMouseCursorPosition(true);
+    CGDisplayShowCursor(kCGDirectMainDisplay);
+}
+
+////////////////////////////////////////////////////////
 -(void)hideMouseCursor
 {
     [NSCursor hide];

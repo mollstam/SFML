@@ -303,6 +303,14 @@ public :
     virtual void setVisible(bool visible);
 
     ////////////////////////////////////////////////////////////
+    /// \brief Check if the mouse is grabbed by the window
+    ///
+    /// \return True if grabbed, false otherwise
+    ///
+    ////////////////////////////////////////////////////////////
+    virtual bool getMouseGrabbed();
+
+    ////////////////////////////////////////////////////////////
     /// \brief Grab the mouse when window is in foreground
     ///
     /// \param grabbed True to grab, false to not grab
@@ -341,6 +349,7 @@ private :
     ////////////////////////////////////////////////////////////
     WindowImplDelegateRef m_delegate;   ///< Implementation in Obj-C.
     bool                  m_showCursor; ///< Is the cursor displayed or hidden ?
+    bool                  m_grabMouse;  ///< Is the mouse grabbed?
 };
 
 } // namespace priv

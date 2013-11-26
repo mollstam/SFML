@@ -177,6 +177,14 @@ public :
     virtual void setVisible(bool visible) = 0;
 
     ////////////////////////////////////////////////////////////
+    /// \brief Check if the mouse is grabbed by the window
+    ///
+    /// \return True if grabbed, false otherwise
+    ///
+    ////////////////////////////////////////////////////////////
+    virtual bool getMouseGrabbed() = 0;
+
+    ////////////////////////////////////////////////////////////
     /// \brief Grab the mouse when window is in foreground
     ///
     /// \param grabbed True to grab, false to not grab

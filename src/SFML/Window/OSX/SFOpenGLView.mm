@@ -493,11 +493,17 @@ BOOL isValidTextUnicode(NSEvent* event);
     if (m_requester != 0) {
         NSPoint loc = [self cursorPositionFromEvent:theEvent];
 
-        // Make sure the point is inside the view.
+        // Make sure the point is inside the view, or the mouse is grabbed.
         // (mouseEntered: and mouseExited: are not immediately called
         //  when the mouse is dragged. That would be too easy!)
+
         [self updateMouseState];
-        if (m_mouseIsIn) {
+
+        if (m_requester->getMouseGrabbed()) {
+            int32_t dx, dy;
+            CGGetLastMouseDelta(&dx, &dy);
+            m_requester->mouseMovedAt(dx, dy);
+        } else if (m_mouseIsIn) {
             m_requester->mouseMovedAt(loc.x, loc.y);
         }
     }

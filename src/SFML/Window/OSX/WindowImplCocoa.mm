@@ -257,7 +257,7 @@ void WindowImplCocoa::mouseMovedAt(int x, int y)
     event.type = Event::MouseMoved;
     event.mouseMove.x = x;
     event.mouseMove.y = y;
-
+    
     pushEvent(event);
 }
 
@@ -410,9 +410,20 @@ void WindowImplCocoa::setVisible(bool visible)
     }
 }
 
+bool WindowImplCocoa::getMouseGrabbed()
+{
+    return m_grabMouse;
+}
+
 void WindowImplCocoa::setMouseGrabbed(bool grabbed)
 {
-    
+    m_grabMouse = grabbed;
+
+    if (m_grabMouse) {
+        [m_delegate grabMouse];
+    } else {
+        [m_delegate ungrabMouse];
+    }
 }
 
 
