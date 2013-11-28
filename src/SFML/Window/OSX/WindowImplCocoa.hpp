@@ -349,7 +349,7 @@ private :
     ////////////////////////////////////////////////////////////
     WindowImplDelegateRef m_delegate;   ///< Implementation in Obj-C.
     bool                  m_showCursor; ///< Is the cursor displayed or hidden ?
-    bool                  m_grabMouse;  ///< Is the mouse grabbed?
+    bool                  m_grabMouse;  ///< Is the mouse grabbed by the window?
 };
 
 } // namespace priv

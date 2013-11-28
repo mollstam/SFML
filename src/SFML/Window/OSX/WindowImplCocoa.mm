@@ -410,11 +410,13 @@ void WindowImplCocoa::setVisible(bool visible)
     }
 }
 
+////////////////////////////////////////////////////////////
 bool WindowImplCocoa::getMouseGrabbed()
 {
     return m_grabMouse;
 }
 
+////////////////////////////////////////////////////////////
 void WindowImplCocoa::setMouseGrabbed(bool grabbed)
 {
     m_grabMouse = grabbed;
