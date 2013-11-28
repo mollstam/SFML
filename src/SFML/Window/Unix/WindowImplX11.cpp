@@ -92,7 +92,10 @@ m_oldVideoMode(-1),
 m_hiddenCursor(0),
 m_keyRepeat   (true),
 m_previousSize(-1, -1),
-m_useSizeHints(false)
+m_useSizeHints(false),
+m_grabMouse(false),
+m_previousMousePos(0, 0),
+m_skipNextMove(false)
 {
     // Open a connection with the X server
     m_display = OpenDisplay();
@@ -123,7 +126,10 @@ m_oldVideoMode(-1),
 m_hiddenCursor(0),
 m_keyRepeat   (true),
 m_previousSize(-1, -1),
-m_useSizeHints(false)
+m_useSizeHints(false),
+m_grabMouse(false),
+m_previousMousePos(0, 0),
+m_skipNextMove(false)
 {
     // Open a connection with the X server
     m_display = OpenDisplay();
@@ -459,6 +465,30 @@ void WindowImplX11::setVisible(bool visible)
         XUnmapWindow(m_display, m_window);
 
     XFlush(m_display);
+}
+
+bool WindowImplX11::getMouseGrabbed()
+{
+    return m_grabMouse;
+}
+
+void WindowImplX11::setMouseGrabbed(bool grabbed)
+{
+
+    if (grabbed)
+    {
+        if (!m_grabMouse)
+        {
+            int grab_mask = PointerMotionMask | ButtonPressMask | ButtonReleaseMask;
+            XGrabPointer(m_display, m_window, false, grab_mask, GrabModeAsync, GrabModeAsync, m_window, m_hiddenCursor, CurrentTime);
+        }
+    }
+    else
+    {
+        int status = XUngrabPointer(m_display, CurrentTime);
+    }
+
+    m_grabMouse = grabbed;
 }
 
 
@@ -859,10 +889,30 @@ bool WindowImplX11::processEvent(XEvent windowEvent)
         // Mouse moved
         case MotionNotify :
         {
+            if (m_skipNextMove)
+            {
+                m_skipNextMove = false;
+                break;
+            }
             Event event;
             event.type        = Event::MouseMoved;
-            event.mouseMove.x = windowEvent.xmotion.x;
-            event.mouseMove.y = windowEvent.xmotion.y;
+            if (m_grabMouse)
+            {
+                event.mouseMove.x = windowEvent.xmotion.x - m_previousMousePos.x;
+                event.mouseMove.y = windowEvent.xmotion.y - m_previousMousePos.y;
+                m_previousMousePos.x = windowEvent.xmotion.x;
+                m_previousMousePos.y = windowEvent.xmotion.y;
+
+                Vector2u windowSize = getSize();
+                XWarpPointer(m_display, None, DefaultRootWindow(m_display), 0, 0, 0, 0, windowSize.x/2, windowSize.y/2);
+                XFlush(m_display);
+                m_skipNextMove = true;
+            }
+            else
+            {
+                event.mouseMove.x = windowEvent.xmotion.x;
+                event.mouseMove.y = windowEvent.xmotion.y;
+            }
             pushEvent(event);
             break;
         }

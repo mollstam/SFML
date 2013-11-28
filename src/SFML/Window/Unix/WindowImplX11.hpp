@@ -139,6 +139,22 @@ public :
     virtual void setVisible(bool visible);
 
     ////////////////////////////////////////////////////////////
+    /// \brief Check if the mouse is grabbed by the window
+    ///
+    /// \return True if grabbed, false otherwise
+    ///
+    ////////////////////////////////////////////////////////////
+    virtual bool getMouseGrabbed();
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Grab the mouse when window is in foreground
+    ///
+    /// \param grabbed True to grab, false to not grab
+    ///
+    ////////////////////////////////////////////////////////////
+    virtual void setMouseGrabbed(bool grabbed);
+
+    ////////////////////////////////////////////////////////////
     /// \brief Show or hide the mouse cursor
     ///
     /// \param visible True to show, false to hide
@@ -213,18 +229,21 @@ private :
     ////////////////////////////////////////////////////////////
     // Member data
     ////////////////////////////////////////////////////////////
-    ::Window   m_window;       ///< X11 structure defining our window
-    ::Display* m_display;      ///< Pointer to the display
-    int        m_screen;       ///< Screen identifier
-    XIM        m_inputMethod;  ///< Input method linked to the X display
-    XIC        m_inputContext; ///< Input context used to get unicode input in our window
-    bool       m_isExternal;   ///< Tell whether the window has been created externally or by SFML
-    Atom       m_atomClose;    ///< Atom used to identify the close event
-    int        m_oldVideoMode; ///< Video mode in use before we switch to fullscreen
-    Cursor     m_hiddenCursor; ///< As X11 doesn't provide cursor hidding, we must create a transparent one
-    bool       m_keyRepeat;    ///< Is the KeyRepeat feature enabled?
-    Vector2i   m_previousSize; ///< Previous size of the window, to find if a ConfigureNotify event is a resize event (could be a move event only)
-    bool       m_useSizeHints; ///< Is the size of the window fixed with size hints?
+    ::Window   m_window;           ///< X11 structure defining our window
+    ::Display* m_display;          ///< Pointer to the display
+    int        m_screen;           ///< Screen identifier
+    XIM        m_inputMethod;      ///< Input method linked to the X display
+    XIC        m_inputContext;     ///< Input context used to get unicode input in our window
+    bool       m_isExternal;       ///< Tell whether the window has been created externally or by SFML
+    Atom       m_atomClose;        ///< Atom used to identify the close event
+    int        m_oldVideoMode;     ///< Video mode in use before we switch to fullscreen
+    Cursor     m_hiddenCursor;     ///< As X11 doesn't provide cursor hidding, we must create a transparent one
+    bool       m_keyRepeat;        ///< Is the KeyRepeat feature enabled?
+    Vector2i   m_previousSize;     ///< Previous size of the window, to find if a ConfigureNotify event is a resize event (could be a move event only)
+    bool       m_useSizeHints;     ///< Is the size of the window fixed with size hints?
+    bool       m_grabMouse;        ///< Is the mouse grabbed by the window?
+    Vector2i   m_previousMousePos; ///< Keep the last mouse cords to report delta when grabbed
+    bool       m_skipNextMove;     ///< Should next mouse move be skipped? Used when grabbed and warped to center
 };
 
 } // namespace priv
